@@ -93,7 +93,7 @@ class db:
         try:
             self.cur.execute("INSERT INTO users(first_name,second_name,email,password) VALUES (%s, %s, "
                              "%s,%s)", (first_name,second_name,email,password))
-            self.conn.commit()
+            self.cur.commit()
             # 1 - Succeeded
             return 1
         except Exception as e:
@@ -104,9 +104,17 @@ class db:
     def changePassword(self,email,newPassword):
         try:
             self.cur.execute("UPDATE users SET password = %s WHERE email = %s", (newPassword,email))
-            self.conn.commit()
+            self.cur.commit()
             # 1 - Succeeded
             return 1
+        except Exception as e:
+            print(e)
+            return 0
+
+    def selectPassword(self, email):
+        try:
+            self.cur.execute(f"SELECT password FROM users WHERE email = %s", (email,))
+            return self.cur.fetchone()
         except Exception as e:
             print(e)
             return 0

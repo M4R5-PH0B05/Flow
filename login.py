@@ -12,18 +12,26 @@ class Login:
         self.username = username
         self.password = hashlib.sha1(password.encode("utf-8")).hexdigest()
 
+    def LoginAttept():
+        try:
+            UserAttempt = str(input("Enter your Email:   "))
+            PassAttempt = hashlib.sha1(input("Enter your Password:   ").encode("utf-8")).hexdigest()
+            if UserAttempt != None and PassAttempt != None:
+                conn = db()
+                HashPass = conn.selectPassword(UserAttempt)[0]
+                if PassAttempt == HashPass:
+                    print("Login Succeeded")
+                else:
+                    print("Login Failed")
 
 
+        except Exception as e :
+            print(f"Exeption was: {e}. Fix it")
 
 
 
 # TESTING
-login = Login(1, "Test", "Test")
-
-copy = b"Test"
-m.update(copy)
-print(m.hexdigest())
-print("The Hash is: %s" % login.password)
+Login.LoginAttept()
 
 
 

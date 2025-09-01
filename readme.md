@@ -18,7 +18,7 @@ Flow is a comprehensive web-based personal finance management platform designed 
     - Due Dates
     - Subscription Trackers ( Reminders, etc.. )
     - Filter by time, low to high, high to low, etc.. 
-    - Responsive Design
+    - Responsive Design*
     - Light + Dark mode
     - 2F Auth
     - Support for different currencies
@@ -34,7 +34,6 @@ Database: Postgresql
 ### Initial Tasks
 - Add incomes
 - Add subscriptions
-- Login & Register
 - Savings
 - Initial UI / UX / frontend Prototype
 ### Tom

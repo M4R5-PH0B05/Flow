@@ -66,7 +66,10 @@ class subscription:
 
     # Make a new subscription object out of the results of the database
     @staticmethod
-    def makeSubscription(new_details):
+    def makeSubscription(subscription_name,user_id):
+        connection = db()
+        details = connection.getSubscriptionDetails(subscription_name, user_id)
+        new_details = details[0]
         sub = subscription(new_details[1],new_details[7],new_details[8],new_details[5],new_details[2],new_details[3],new_details[4])
         return sub
 
@@ -74,15 +77,6 @@ class subscription:
 
 
 # Testing
-
-# # Create a new subscription
-# spotify = subscription(1,"Adobe","Annually",subscription.convertDate("1/09/2025"),250,'Entertainment',None)
-# #
-# # # Create the subscription
-# spotify.createSubscription()
-
-# List the details of a given subscription
-connection = db()
-details = connection.getSubscriptionDetails("Adobe",1)
-object = subscription.makeSubscription(details[0])
-print(object.nextDate)
+#
+# object = subscription.makeSubscription("Adobe",1)
+# print(object.name)

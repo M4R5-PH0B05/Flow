@@ -8,7 +8,7 @@ Flow is a comprehensive web-based personal finance management platform designed 
     - Add incomes
     - Add Subscriptions
     - Track Savings
-    - Budgeting Tool
+    - Spending Goals 
     - Analytics Dashboard ( Graphics, visualisation, graphs, etc... ) 
 
 ### Sub Features
@@ -34,17 +34,21 @@ Database: Postgresql
 ### Initial Tasks
 
 - Add subscriptions
-- Saving goals
+- 
 
 
 ### Morgan 
-1. DB Initial Setup + Wrapper (In progress)
-2. Initial UI / UX / frontend Prototype
+1. ~~DB Initial Setup + Wrapper (In progress)~~
+2. ~~Initial UI / UX / frontend Prototype~~
+
 ### Tom
 1. 2F Auth
+2. 
+
 ### Dan
-1. Add expenses (Should be done until UI implimentation)
-2. Add incomes (Should be done until UI implimentation)
+1. ~~Add expenses (Should be done until UI implementation)~~
+2. ~~Add incomes (Should be done until UI implementation)~~
+3. Saving goals (IN PROGRESS)
 
 
 ### Future Tasks

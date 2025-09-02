@@ -2,16 +2,16 @@ from flask import Flask, render_template, send_from_directory
 import os
 
 app = Flask(__name__, 
-           template_folder='../Frontend',
-           static_folder='../Frontend')
+           template_folder='../Templates',
+           static_folder='../Static')
 
 @app.route('/')
 def dashboard():
-    return render_template('dashboard.html')
+    return render_template('index.html')
 
 @app.route('/dashboard')
 def dashboard_route():
-    return render_template('dashboard.html')
+    return render_template('index.html')
 
 @app.route('/static/<path:filename>')
 def static_files(filename):

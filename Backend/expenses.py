@@ -5,9 +5,10 @@
 
 # IMPORTS
 from db import db
+import datetime
 
 #DB connection
-CurrentUser = 0#This will be changed to the current user ID when the user acctually uses this code
+CurrentUser = 1#This will be changed to the current user ID when the user acctually uses this code
 DBconnection = db()
 DBListCurrentCategories = DBconnection.listCustomCategories(userid=CurrentUser,type=1)
 
@@ -39,6 +40,7 @@ def CreateExpense():#allows the user to input a new expense
     Recurring = input("Does your expense repeat? (Y/N)")
     if(Recurring.upper() == "Y"):
         RecuranceFrequency, RecurringDate = Recurrence()
+    RecuranceFrequency =RecurranceFrequencyHandler(RecuranceFrequency)#converts user input into standard format
     WantsToRemoveCategory = input("Would you like to remove a category? (Y/N)")
     if(WantsToRemoveCategory.upper() == "Y"):
         CategoryName = input("What category would you like to remove?")
@@ -47,6 +49,18 @@ def CreateExpense():#allows the user to input a new expense
     Expense(name = Name, category=Category, price=Price,notes=Notes,recurring=Recurring,recurringDate=RecurringDate,recurringFrequency= RecuranceFrequency)#adds an expense to the expenses class
     DBaddExpense = DBconnection.addExpense(userID=CurrentUser, amount=Price, category_id=DBgetCategoryID, notes=Notes,
                                            recurring=Recurring, recurringDate=RecurringDate,recurringFrequency= RecuranceFrequency)#adds an expense to the database
+
+def RecurranceFrequencyHandler(CurrentRecuranceFrequency):#converts user input of recurrance frequnecy into standard
+    # format
+    if(CurrentRecuranceFrequency == 1):
+        CurrentRecuranceFrequency = "Daily"
+    elif(CurrentRecuranceFrequency == 2):
+        CurrentRecuranceFrequency = "Weekly"
+    elif(CurrentRecuranceFrequency ==3):
+        CurrentRecuranceFrequency = "Monthly"
+    elif(CurrentRecuranceFrequency ==4):
+        CurrentRecuranceFrequency = "Annually"
+    return CurrentRecuranceFrequency
 
 def DisplayCategories():#displays categories and returns the place in the array chossen by the user
     global Categories
@@ -65,11 +79,15 @@ def DisplayCategories():#displays categories and returns the place in the array 
         Categories.append("")
     return Categories[Category-1]
 
-def Recurrence():#deals with repeating expenses
-    RecuranceFrequency = input("How often does your expense repeat? e.g weekly monthly, e.t.c")
-    RecurringDate = input("When does your expense repeat? (DD/MM/YYYY)")
+def Recurrence():#deals with repeating Incomes
+    RecuranceFrequency = int(input('''How often does your Income repeat? 
+    (1) daily
+    (2) weekly
+    (3) Monthly
+    (4) Anually
+                               '''))
+    RecurringDate = datetime.datetime.strptime(input("When does your Income repeat? (DD/MM/YYYY)"), "%d/%m/%Y")
     return RecuranceFrequency,RecurringDate
-
 
 def CreateCategory():#when user creates a new category it will be created here and added to the database for that user
     CategoryName = input("What will this new category be called?")

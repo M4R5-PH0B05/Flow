@@ -17,8 +17,9 @@ class db:
             self.cur.execute(str(statement))
             rows = self.cur.fetchall()
             return rows
-        except:
+        except Exception as e:
             # 0 - Failed
+            print(e)
             return 0
 
     # Insert statement
@@ -28,8 +29,9 @@ class db:
             self.conn.commit()
             # 1 - Succeeded
             return 1
-        except:
+        except Exception as e:
             # 0 - Failed
+            print(e)
             return 0
 
     # Adds an Expense
@@ -192,4 +194,67 @@ class db:
             print(e)
             return 0
 
+    # Get all incomes after a specific date
+    def getSpecificIncome(self, date):
+        try:
+            self.cur.execute(f"SELECT * FROM incomes WHERE recurringdate < %s", (date,))
+            data = self.cur.fetchall()
+            return data
+        except Exception as e:
+            print(e)
+            return 0
+
+    # Add new Subscription
+    def addSubscription(self,userid,amount,category,notes,nextDate,dates,name,frequency):
+        try:
+            self.cur.execute(
+                """
+                INSERT INTO subscriptions
+                    (userid, amount, category, notes, recurringdate, dates, name,frequency)
+                VALUES (%s, %s, %s, %s, %s, %s, %s,%s)
+                """,
+                (
+                    userid,
+                    amount,
+                    category,
+                    notes,
+                    nextDate,
+                    dates,
+                    name,
+                    frequency
+                )
+            )
+            self.conn.commit()
+            # 1 - Succeeded
+            return 1
+        except Exception as e:
+            print(e)
+            return 0
+
+    # Gets subscription ID
+    def getSubscriptionID(self,subscription_name,userid):
+        try:
+            self.cur.execute(f"SELECT subscriptionid FROM subscriptions WHERE name = %s AND userid = %s",
+                             (subscription_name,userid))
+            data = self.cur.fetchall()
+            return data[0][0]
+        except Exception as e:
+            print(e)
+            return 0
+
+
+    # Gets subscription Details
+    def getSubscriptionDetails(self,subscription_name,userid):
+        try:
+            self.cur.execute(f"SELECT * FROM subscriptions WHERE name = %s AND userid = %s",
+                             (subscription_name,userid))
+            data = self.cur.fetchall()
+            return data
+        except Exception as e:
+            print(e)
+            return 0
 # TESTING
+
+
+
+

@@ -18,7 +18,7 @@ def Register(Forename, Surname, Email, Password):
         if conn.userDetails(Email) != 0:
             raise Exception("Email already in use")
             return 0
-        conn.registerUser(forename,surname,Email,password, )
+        conn.registerUser(forename,surname,Email,password, permissions = False)
         return 1
     except Exception as e:
         print(f"Exeption was: {e}")

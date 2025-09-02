@@ -5,7 +5,7 @@ class db:
     def __init__(self):
         self.user = 'mars'
         self.password = 'Morgan1206!'
-        self.host = '192.168.0.40'
+        self.host = '100.118.16.69'
         self.port = '32768'
         self.database = 'Flow'
         self.conn = psycopg2.connect(user=self.user, password=self.password, host=self.host, port=self.port, database=self.database)

@@ -1,6 +1,6 @@
 #REQUIREMENTS
-#-what expense would you like to manage
-#-what category is this expense
+#-what income would you like to manage
+#-what category is this Income
 #-add option to select an already existing category or create a new category
 
 # IMPORTS
@@ -9,7 +9,7 @@ from db import db
 #DB connection
 CurrentUser = 0#This will be changed to the current user ID when the user acctually uses this code
 DBconnection = db()
-DBListCurrentCategories = DBconnection.listCustomCategories(userid=CurrentUser,type=1)
+DBListCurrentCategories = DBconnection.listCustomCategories(userid=CurrentUser,type=0)
 
 #INITIALISATION
 Categories = []
@@ -18,8 +18,8 @@ for item in DBListCurrentCategories:#takes items in CurrentUser's database and a
 Categories.append("")
 
 #MAIN
-class Expense:
-    def __init__(self, name, category, price, notes, recurring ,recurringDate,recurringFrequency):#initialse Expense class
+class Income:
+    def __init__(self, name, category, price, notes, recurring ,recurringDate,recurringFrequency):#initialse Income class
         self.name = name
         self.category = category
         self.price = price
@@ -29,14 +29,14 @@ class Expense:
         self.recurringFrequency = recurringFrequency
 
 
-def CreateExpense():#allows the user to input a new expense
+def CreateIncome():#allows the user to input a new Income
     RecurringDate = None
     RecuranceFrequency = None
-    Name = input("Please State the name of your expense : ")
+    Name = input("Please State the name of your Income : ")
     Category = DisplayCategories()
     DBgetCategoryID = DBconnection.getCategoryID(Category, CurrentUser)
-    Price = input("How much is your expense?")
-    Recurring = input("Does your expense repeat? (Y/N)")
+    Price = input("How much is your Income?")
+    Recurring = input("Does your Income repeat? (Y/N)")
     if(Recurring.upper() == "Y"):
         RecuranceFrequency, RecurringDate = Recurrence()
     WantsToRemoveCategory = input("Would you like to remove a category? (Y/N)")
@@ -44,9 +44,9 @@ def CreateExpense():#allows the user to input a new expense
         CategoryName = input("What category would you like to remove?")
         RemoveCategory(CategoryName)
     Notes = input("Anything notes that you want to add? ")
-    Expense(name = Name, category=Category, price=Price,notes=Notes,recurring=Recurring,recurringDate=RecurringDate,recurringFrequency= RecuranceFrequency)#adds an expense to the expenses class
-    DBaddExpense = DBconnection.addExpense(userID=CurrentUser, amount=Price, category_id=DBgetCategoryID, notes=Notes,
-                                           recurring=Recurring, recurringDate=RecurringDate,recurringFrequency= RecuranceFrequency)#adds an expense to the database
+    Income(name = Name, category=Category, price=Price,notes=Notes,recurring=Recurring,recurringDate=RecurringDate,recurringFrequency= RecuranceFrequency)#adds an Income to the Incomes class
+    DBaddIncome = DBconnection.addIncome(userID=CurrentUser, amount=Price, category_id=DBgetCategoryID, notes=Notes,
+                                           recurring=Recurring, recurringDate=RecurringDate,recurringFrequency= RecuranceFrequency)#adds an Income to the database
 
 def DisplayCategories():#displays categories and returns the place in the array chossen by the user
     global Categories
@@ -65,15 +65,15 @@ def DisplayCategories():#displays categories and returns the place in the array 
         Categories.append("")
     return Categories[Category-1]
 
-def Recurrence():#deals with repeating expenses
-    RecuranceFrequency = input("How often does your expense repeat? e.g weekly monthly, e.t.c")
-    RecurringDate = input("When does your expense repeat? (DD/MM/YYYY)")
+def Recurrence():#deals with repeating Incomes
+    RecuranceFrequency = input("How often does your Income repeat? e.g weekly monthly, e.t.c")
+    RecurringDate = input("When does your Income repeat? (DD/MM/YYYY)")
     return RecuranceFrequency,RecurringDate
 
 
 def CreateCategory():#when user creates a new category it will be created here and added to the database for that user
     CategoryName = input("What will this new category be called?")
-    DBaddCategory = DBconnection.addCategory(CurrentUser,CategoryName,type=1)
+    DBaddCategory = DBconnection.addCategory(CurrentUser,CategoryName,type=0)
     return CategoryName
 
 def RemoveCategory(CategoryName):#allows the user to remove one of the displayed categories from the database and from next time they list the categories
@@ -81,7 +81,7 @@ def RemoveCategory(CategoryName):#allows the user to remove one of the displayed
     DBremoveCategory = DBconnection.removeCategory(DBgetCategoryID)
 
 def main():# needs to return -  userID amount category notes recurring recurringDate
-    CreateExpense()
+    CreateIncome()
 
 main()
 

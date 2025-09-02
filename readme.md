@@ -32,16 +32,20 @@ Database: Postgresql
 ## Assignments
 
 ### Initial Tasks
-- Add incomes
+
 - Add subscriptions
-- Savings
-- Initial UI / UX / frontend Prototype
-### Tom
-1. Login & Register
+- Saving goals
+
 
 ### Morgan 
-1. DB Initial Setup + Wrapper
+1. DB Initial Setup + Wrapper (In progress)
+2. Initial UI / UX / frontend Prototype
+### Tom
 
 ### Dan
-1. Add expenses
-2. 
+1. Add expenses (Should be done until UI implimentation)
+2. Add incomes (Should be done until UI implimentation)
+
+
+### Future Tasks
+ - Login & Register (Edge Case Testing) and Client Side Email Validation

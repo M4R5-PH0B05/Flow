@@ -33,9 +33,12 @@ class db:
             return 0
 
     # Adds an Expense
-    def addExpense(self,userID,amount,category,notes=None,recurring=False,recurringDate=None):
+    def addExpense(self,userID,amount,category_id,notes=None,recurring=False,recurringDate=None,recurringFrequency=None):
         try:
-            self.cur.execute("INSERT INTO expenses(userID,amount,category,notes,recurring,recurringDate) VALUES (%s,%s,%s,%s,%s,%s)",(userID,amount,category,notes,recurring,recurringDate))
+            self.cur.execute("INSERT INTO expenses(userID,amount,category_id,notes,recurring,recurringDate,"
+                             "recurringFrequency) VALUES (%s,"
+                             "%s,%s,%s,%s,%s,%s)",(userID,amount,category_id,notes,recurring,recurringDate,
+                                                recurringFrequency))
             self.conn.commit()
             # 1 - Succeeded
             return 1
@@ -55,45 +58,61 @@ class db:
             print(e)
             return 0
 
-    # Adds an Income
-    def addIncome(self, userID, amount, category, notes=None, recurring=False, recurringDate=None):
+    # Adds a new income
+    def addIncome(self,userID,amount,category_id,notes=None,recurring=False,recurringDate=None,recurringFrequency=None):
         try:
-            self.cur.execute("INSERT INTO incomes(userID,amount,category,notes,recurring,recurringDate) VALUES (%s,%s,%s,%s,%s,%s)",(userID,amount,category,notes,recurring,recurringDate))
+            self.cur.execute("INSERT INTO incomes(userID,amount,category_id,notes,recurring,recurringDate,"
+                             "recurringFrequency) VALUES (%s,"
+                             "%s,%s,%s,%s,%s,%s)",(userID,amount,category_id,notes,recurring,recurringDate,
+                                                recurringFrequency))
             self.conn.commit()
             # 1 - Succeeded
             return 1
         except Exception as e:
             print(e)
+            # 0 - Failed
             return 0
 
-    # Returns all of users Incomes
-    def showIncomes(self, userID):
+    # Returns all of users incomes
+    def showIncomes(self,userID):
         try:
-            self.cur.execute("SELECT * FROM incomes WHERE userID = %s", (userID))
+            self.cur.execute("SELECT * FROM incomes WHERE userID = %s",(userID))
             rows = self.cur.fetchall()
+
             return rows
         except Exception as e:
             print(e)
             return 0
-        
+
     # Returns users details from the email and password
-    def userDetails(self, email,password):
-        try:
-            self.cur.execute("SELECT * FROM users WHERE email = %s AND password = %s", (email,password))
-            rows = self.cur.fetchall()
-            if len(rows) <= 0:
+    def userDetails(self, email,password = None):
+        if password != None:
+            try:
+                self.cur.execute("SELECT * FROM users WHERE email = %s AND password = %s", (email,password))
+                rows = self.cur.fetchall()
+                if len(rows) <= 0:
+                    return 0
+                return rows
+            except Exception as e:
+                print(e)
                 return 0
-            return rows
-        except Exception as e:
-            print(e)
-            return 0
+        else:
+            try:
+                self.cur.execute("SELECT * FROM users WHERE email = %s", (email,))
+                rows = self.cur.fetchall()
+                if len(rows) <= 0:
+                    return 0
+                return rows
+            except Exception as e:
+                print(e)
+                return 0
 
     # Registers a user
     def registerUser(self, first_name,second_name,email,password):
         try:
             self.cur.execute("INSERT INTO users(first_name,second_name,email,password) VALUES (%s, %s, "
                              "%s,%s)", (first_name,second_name,email,password))
-            self.cur.commit()
+            self.conn.commit()
             # 1 - Succeeded
             return 1
         except Exception as e:
@@ -104,17 +123,73 @@ class db:
     def changePassword(self,email,newPassword):
         try:
             self.cur.execute("UPDATE users SET password = %s WHERE email = %s", (newPassword,email))
-            self.cur.commit()
+            self.conn.commit()
             # 1 - Succeeded
             return 1
         except Exception as e:
             print(e)
             return 0
 
+    # Gets the password from the Email
     def selectPassword(self, email):
         try:
             self.cur.execute(f"SELECT password FROM users WHERE email = %s", (email,))
-            return self.cur.fetchone()
+            data = self.cur.fetchone()
+            if data == None:
+                return 0
+            return data
         except Exception as e:
             print(e)
             return 0
+
+    # Adds a new category
+    def addCategory(self,userid,category_name,type):
+        try:
+            self.cur.execute("INSERT INTO categories(userid,category_name,type) VALUES (%s, %s, %s)", (userid,
+                                                                                                   category_name,type))
+            self.conn.commit()
+            # 1 - Succeeded
+            return 1
+        except Exception as e:
+            print(e)
+            return 0
+
+    # Removes a category
+    def removeCategory(self,category_id):
+
+            try:
+                self.cur.execute("DELETE FROM categories WHERE category_id = %s", (category_id,))
+                self.conn.commit()
+                return 1
+            except Exception as e:
+                print(e)
+                return 0
+
+    # Lists all categories for that user
+    def listCustomCategories(self,userid,type):
+        try:
+            result = self.cur.execute("""
+                SELECT * FROM categories
+                WHERE (userid = 0 OR userid = %s)
+                  AND type = %s
+                ORDER BY userid
+            """, (userid, type))
+
+            result = self.cur.fetchall()
+            return result
+        except Exception as e:
+            print(e)
+            return 0
+
+    # Gets category ID
+    def getCategoryID(self,category_name,userid):
+        try:
+            self.cur.execute(f"SELECT category_id FROM categories WHERE category_name = %s AND userid = %s",
+                             (category_name,userid))
+            data = self.cur.fetchall()
+            return data[0][0]
+        except Exception as e:
+            print(e)
+            return 0
+
+# TESTING

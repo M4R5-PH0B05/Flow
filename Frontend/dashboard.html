@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Header -->
+        <header class="nav-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="3" width="18" height="18" rx="2" fill="currentColor"/>
+                        <rect x="7" y="7" width="10" height="2" fill="white"/>
+                        <rect x="7" y="11" width="6" height="2" fill="white"/>
+                    </svg>
+                </div>
+                <span class="logo-text">Flow</span>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-tab active">Dashboard</button>
+                <button class="nav-tab">Budget</button>
+                <button class="nav-tab">Savings</button>
+                <button class="nav-tab">Settings</button>
+                <button class="theme-toggle" id="themeToggle">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+                    </svg>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Dashboard Grid -->
+        <main class="dashboard-grid">
+            <!-- Current Balance Card -->
+            <div class="card balance-card">
+                <h3 class="card-title">Current Balance</h3>
+                <div class="balance-amount">£4,247.89</div>
+                <div class="balance-change positive">+£234.54 this month</div>
+                <div class="balance-actions">
+                    <button class="btn btn-primary">Add Income</button>
+                    <button class="btn btn-secondary">Add Expense</button>
+                </div>
+            </div>
+
+            <!-- Recent Expenses Card -->
+            <div class="card expenses-card">
+                <h3 class="card-title">Recent Expenses</h3>
+                <div class="expenses-list">
+                    <div class="expense-item">
+                        <div class="expense-avatar" style="background-color: #ef4444;">F</div>
+                        <div class="expense-details">
+                            <div class="expense-name">Pizza in Leeds</div>
+                            <div class="expense-time">Today, 1:30 PM</div>
+                        </div>
+                        <div class="expense-amount negative">-£28.50</div>
+                    </div>
+                    <div class="expense-item">
+                        <div class="expense-avatar" style="background-color: #22c55e;">T</div>
+                        <div class="expense-details">
+                            <div class="expense-name">Bus Ticket</div>
+                            <div class="expense-time">Yesterday, 2:34 PM</div>
+                        </div>
+                        <div class="expense-amount negative">-£3.25</div>
+                    </div>
+                    <div class="expense-item">
+                        <div class="expense-avatar" style="background-color: #06b6d4;">W</div>
+                        <div class="expense-details">
+                            <div class="expense-name">Movie Tickets</div>
+                            <div class="expense-time">20/8/25, 11:14 AM</div>
+                        </div>
+                        <div class="expense-amount negative">-£24.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Budget Card -->
+            <div class="card budget-card">
+                <h3 class="card-title">This Month's Budget</h3>
+                <div class="budget-categories">
+                    <div class="budget-category">
+                        <div class="budget-header">
+                            <span class="budget-name">Food & Dining</span>
+                            <span class="budget-amount">£257 / £500</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 51.4%; background-color: #3b82f6;"></div>
+                        </div>
+                    </div>
+                    <div class="budget-category">
+                        <div class="budget-header">
+                            <span class="budget-name">Transportation</span>
+                            <span class="budget-amount">£88 / £200</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 44%; background-color: #8b5cf6;"></div>
+                        </div>
+                    </div>
+                    <div class="budget-category">
+                        <div class="budget-header">
+                            <span class="budget-name">Entertainment</span>
+                            <span class="budget-amount">£157 / £160</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 98.1%; background-color: #ef4444;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spending Analytics Card -->
+            <div class="card analytics-card">
+                <h3 class="card-title">Spending Analytics</h3>
+                <div class="chart-container">
+                </div>
+                <div class="analytics-stats">
+                    <div class="stat">
+                        <div class="stat-label">Total Spent</div>
+                        <div class="stat-value">£1,847.23</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Daily Avg.</div>
+                        <div class="stat-value">£59.58</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Top Category</div>
+                        <div class="stat-value">Food & Dining</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subscriptions Card -->
+            <div class="card subscriptions-card">
+                <h3 class="card-title">Subscriptions</h3>
+                <div class="subscriptions-list">
+                    <div class="subscription-item">
+                        <div class="subscription-avatar" style="background-color: #dc2626;">N</div>
+                        <div class="subscription-details">
+                            <div class="subscription-name">Netflix</div>
+                            <div class="subscription-next">Next: 15/1/26</div>
+                        </div>
+                        <div class="subscription-amount">£28.50</div>
+                    </div>
+                    <div class="subscription-item">
+                        <div class="subscription-avatar" style="background-color: #16a34a;">S</div>
+                        <div class="subscription-details">
+                            <div class="subscription-name">Spotify</div>
+                            <div class="subscription-next">Next: 8/1/26</div>
+                        </div>
+                        <div class="subscription-amount">£3.25</div>
+                    </div>
+                    <div class="subscription-item">
+                        <div class="subscription-avatar" style="background-color: #ea580c;">C</div>
+                        <div class="subscription-details">
+                            <div class="subscription-name">Claude AI</div>
+                            <div class="subscription-next">Next: 20/2/26</div>
+                        </div>
+                        <div class="subscription-amount">£20.00</div>
+                    </div>
+                </div>
+                <button class="btn btn-outline">View Subscriptions</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

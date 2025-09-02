@@ -1,6 +1,6 @@
 from sympy.codegen import Print
 
-from db import db
+from Backend.db import db
 import hashlib
 
 
